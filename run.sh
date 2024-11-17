@@ -4,6 +4,9 @@ then
   ${sudo apt install cmake}
 fi
 
-cmake  -DCMAKE_BUILD_TYPE=Debug -G Ninja -S ./ -B ./cmake-build-debug
+cmake -S . -B build
+cmake --build build
 
-./cmake-build-debug/frog
+cmake --build build --target run
+
+make run

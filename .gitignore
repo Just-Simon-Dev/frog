@@ -33,4 +33,6 @@
 
 # Cmake files and Clion directories
 cmake-build-debug
+build
 .idea
+run
