@@ -9,7 +9,7 @@ struct Frog;
 
 Frog* frog_create();
 void frog_destroy(Frog* frog);
-void frog_move(Frog* frog, int dx, int dy);
+void frog_movement(Frog* frog, int key);
 void frog_set_position(Frog* frog, int x, int y);
 int frog_get_x(Frog* frog);
 int frog_get_y(Frog* frog);

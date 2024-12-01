@@ -6,7 +6,6 @@
 
 int main()
 {
-    // Initialization phase
     Map* map = map_create();
     Frog* frog = frog_create();
     setFrog(frog, map);
@@ -16,25 +15,19 @@ int main()
     noecho();
     keypad(stdscr, TRUE);
     clear();
-
-    // Game phase
+    
     while (true)
     {
         print_map_fixed(map);
+
         int key = getch();
+        if (key == 'q') break;
 
         clearPrevPositionOfFrog(frog, map);
-        
-        if (key == 'q') break;
-        if (key == KEY_UP) frog_move(frog, 0, -1);
-        if (key == KEY_DOWN) frog_move(frog, 0, 1);
-        if (key == KEY_LEFT) frog_move(frog, -1, 0);
-        if (key == KEY_RIGHT) frog_move(frog, 1, 0);
-
+        frog_movement(frog, key);
         setFrog(frog, map);
     }
-
-    // Cleanup phase
+    
     map_destroy(map);
     frog_destroy(frog);
     endwin();

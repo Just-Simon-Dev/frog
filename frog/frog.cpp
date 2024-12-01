@@ -3,6 +3,9 @@
 //
 
 #include "frog.h"
+
+#include <ncurses.h>
+
 #include "../config.h"
 
 struct Frog
@@ -14,8 +17,8 @@ struct Frog
 Frog* frog_create()
 {
     Frog* frog = new Frog;
-    frog->x = 5;
-    frog->y = 5;
+    frog->x = MAP_WIDTH / 2;
+    frog->y = MAP_HEIGHT - 1;
     return frog;
 }
 
@@ -31,6 +34,15 @@ void frog_move(Frog* frog, int dx, int dy)
     frog->x += dx;
     frog->y += dy;
 }
+
+void frog_movement(Frog* frog, int key)
+{
+    if (key == KEY_UP) frog_move(frog, 0, -1);
+    if (key == KEY_DOWN) frog_move(frog, 0, 1);
+    if (key == KEY_LEFT) frog_move(frog, -1, 0);
+    if (key == KEY_RIGHT) frog_move(frog, 1, 0); 
+}
+
 
 void frog_set_position(Frog* frog, int x, int y)
 {
