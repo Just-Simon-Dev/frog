@@ -8,10 +8,10 @@
 struct Frog;
 
 Frog* frog_create();
-void frog_destroy(Frog* frog);
+void frog_destroy(const Frog* frog);
 void frog_movement(Frog* frog, int key);
 void frog_set_position(Frog* frog, int x, int y);
-int frog_get_x(Frog* frog);
-int frog_get_y(Frog* frog);
+int frog_get_x(const Frog* frog);
+int frog_get_y(const Frog* frog);
 
 #endif //FROG_STRUCT_H

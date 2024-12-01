@@ -22,12 +22,12 @@ Frog* frog_create()
     return frog;
 }
 
-void frog_destroy(Frog* frog)
+void frog_destroy(const Frog* frog)
 {
     delete frog;
 }
 
-void frog_move(Frog* frog, int dx, int dy)
+void frog_move(Frog* frog, const int dx, const int dy)
 {
     if (frog->x + dx < 0 || frog->x + dx >= MAP_WIDTH) return;
     if (frog->y + dy < 0 || frog->y + dy >= MAP_HEIGHT) return;
@@ -35,7 +35,7 @@ void frog_move(Frog* frog, int dx, int dy)
     frog->y += dy;
 }
 
-void frog_movement(Frog* frog, int key)
+void frog_movement(Frog* frog, const int key)
 {
     if (key == KEY_UP) frog_move(frog, 0, -1);
     if (key == KEY_DOWN) frog_move(frog, 0, 1);
@@ -44,18 +44,18 @@ void frog_movement(Frog* frog, int key)
 }
 
 
-void frog_set_position(Frog* frog, int x, int y)
+void frog_set_position(Frog* frog, const int x, const int y)
 {
     frog->x = x;
     frog->y = y;
 }
 
-int frog_get_x(Frog* frog)
+int frog_get_x(const Frog* frog)
 {
     return frog->x;
 }
 
-int frog_get_y(Frog* frog)
+int frog_get_y(const Frog* frog)
 {
     return frog->y;
 }

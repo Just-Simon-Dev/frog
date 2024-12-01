@@ -22,7 +22,7 @@ enum icons
 // CAR -> 'C' - car icon
 // FROG -> 'F' - frog icon
 // returns: char - character representation of the number
-char icons_enum_to_char_icon(icons icon)
+char icons_enum_to_char_icon(const icons icon)
 {
     if(icon == EMPTY) return ' ';
     if(icon == CAR) return 'C';
@@ -48,7 +48,7 @@ Map* map_create()
     return map;
 }
 
-void map_destroy(Map* map)
+void map_destroy(const Map* map)
 {
     delete map;
 }
@@ -63,17 +63,17 @@ void print_vertical_border_of_map()
     printw("+\n");
 }
 
-void clearPrevPositionOfFrog(Frog* frog, Map* map)
+void clearPrevPositionOfFrog(const Frog* frog, Map* map)
 {
     map->values[frog_get_x(frog)][frog_get_y(frog)] = EMPTY;
 }
 
-void setFrog(Frog* frog, Map* map)
+void setFrog(const Frog* frog, Map* map)
 {
     map->values[frog_get_x(frog)][frog_get_y(frog)] = FROG;
 }
 
-void print_map_fixed(Map* map)
+void print_map_fixed(const Map* map)
 {
     if (LINES < MAP_HEIGHT || COLS < MAP_WIDTH) {
         mvprintw(0, 0, "Terminal too small to display map!");

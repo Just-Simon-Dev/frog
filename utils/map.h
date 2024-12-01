@@ -9,9 +9,9 @@
 
 struct Map;
 Map* map_create();
-void map_destroy(Map* map);
-void clearPrevPositionOfFrog(Frog* frog, Map* map);
-void setFrog(Frog* frog, Map* map);
-void print_map_fixed(Map* map);
+void map_destroy(const Map* map);
+void clearPrevPositionOfFrog(const Frog* frog, Map* map);
+void setFrog(const Frog* frog, Map* map);
+void print_map_fixed(const Map* map);
 
 #endif //MAP_H

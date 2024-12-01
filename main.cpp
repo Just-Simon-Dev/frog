@@ -2,7 +2,6 @@
 #include <ncurses.h>
 #include "./utils/map.h"
 #include "./frog/frog.h"
-#include "./config.h"
 
 int main()
 {
@@ -20,7 +19,7 @@ int main()
     {
         print_map_fixed(map);
 
-        int key = getch();
+        const int key = getch();
         if (key == 'q') break;
 
         clearPrevPositionOfFrog(frog, map);
