@@ -6,7 +6,6 @@
 
 #include <ncurses.h>
 #include <time.h>
-#include "../config.h"
 
 struct level_t
 {

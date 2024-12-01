@@ -7,14 +7,16 @@
 #include <ncurses.h>
 #include "../config.h"
 #include "../frog/frog.h"
+#include "lane.h"
 
 struct Frog;
 
 enum icons
 {
     EMPTY = -1,
-    CAR = 0,
-    FROG = 1
+    LANE = 0,
+    CAR = 1,
+    FROG = 2
 };
 
 // This function converts icons enum to predefined characters
@@ -27,6 +29,7 @@ char icons_enum_to_char_icon(const icons icon)
     if(icon == EMPTY) return ' ';
     if(icon == CAR) return 'C';
     if(icon == FROG) return 'F';
+    if(icon == LANE) return '-';
     return ' ';
 }
 
@@ -71,6 +74,28 @@ void clearPrevPositionOfFrog(const Frog* frog, Map* map)
 void setFrog(const Frog* frog, Map* map)
 {
     map->values[frog_get_x(frog)][frog_get_y(frog)] = FROG;
+}
+
+void draw_dashed_line(Map* map, int j, int i)
+{
+    if (j % 2 == 0) return;
+    map->values[j][i] = LANE;
+}
+
+void set_lanes(lane_t* lanes, Map* map)
+{
+    int dashed_line_pos = 0;
+    for (int i = 0; i < number_of_lane; i++)
+    {
+        dashed_line_pos = (get_top_edge(lanes, i) + get_bottom_edge(lanes, i)) / 2;
+        for (int j = 0; j < MAP_WIDTH; j++)
+        {
+            
+            draw_dashed_line(map, j, dashed_line_pos);
+            map->values[j][get_top_edge(lanes, i)] = LANE;
+            map->values[j][get_bottom_edge(lanes, i)] = LANE;
+        }
+    }
 }
 
 void print_map_fixed(const Map* map)
