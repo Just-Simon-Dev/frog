@@ -5,6 +5,9 @@
 #include "map.h"
 
 #include <ncurses.h>
+#include <string>
+
+#include "destination.h"
 #include "../config.h"
 #include "../frog/frog.h"
 #include "lane.h"
@@ -16,7 +19,10 @@ enum icons
     EMPTY = -1,
     LANE = 0,
     CAR = 1,
-    FROG = 2
+    FROG = 2,
+    E = 3,
+    N = 4,
+    D = 5,
 };
 
 // This function converts icons enum to predefined characters
@@ -30,6 +36,9 @@ char icons_enum_to_char_icon(const icons icon)
     if(icon == CAR) return 'C';
     if(icon == FROG) return 'F';
     if(icon == LANE) return '-';
+    if(icon == E) return 'E';
+    if(icon == N) return 'N';
+    if(icon == D) return 'D';
     return ' ';
 }
 
@@ -96,6 +105,13 @@ void set_lanes(lane_t* lanes, Map* map)
             map->values[j][get_bottom_edge(lanes, i)] = LANE;
         }
     }
+}
+
+void print_destination_title(Map* map, destination_t* destination)
+{
+    map->values[MAP_WIDTH/2 - 1][get_destination_x(destination) / 2] = E;
+    map->values[MAP_WIDTH/2][get_destination_x(destination) / 2] = N;
+    map->values[MAP_WIDTH/2 + 1][get_destination_x(destination) / 2] = D; 
 }
 
 void print_map_fixed(const Map* map)

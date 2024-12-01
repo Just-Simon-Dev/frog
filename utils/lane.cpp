@@ -22,8 +22,8 @@ lane_t* lanes_create(const int numberOfLanes)
     int laneHeight = MAP_HEIGHT / (numberOfLanes + 2);
     for (int i = 1; i < numberOfLanes + 1; i++)
     {
-        lanes[i-1].topEdge = i * laneHeight + laneHeight;
-        lanes[i-1].bottomEdge = i * laneHeight;
+        lanes[i-1].topEdge = i * laneHeight;
+        lanes[i-1].bottomEdge = i * laneHeight + laneHeight;
     }
     return lanes;
 }
