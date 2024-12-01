@@ -33,8 +33,6 @@ int main()
 
         setFrog(frog, map);
     }
-    
-    getch();
 
     // Cleanup phase
     map_destroy(map);
