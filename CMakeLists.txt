@@ -15,6 +15,8 @@ add_executable(frog main.cpp
         utils/map.cpp
         utils/map.h
         config.h
+        utils/interface.cpp
+        utils/interface.h
 )
 
 # Link the executable with the ncurses library
