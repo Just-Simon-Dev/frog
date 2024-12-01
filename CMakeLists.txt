@@ -10,11 +10,12 @@ set(CMAKE_CXX_STANDARD 11)
 
 # Define the executable
 add_executable(frog main.cpp
-        frog/frog_struct.cpp
-        frog/frog_struct.h
+        frog/frog.cpp
+        frog/frog.h
         utils/map.cpp
         utils/map.h
-        config.h)
+        config.h
+)
 
 # Link the executable with the ncurses library
 target_link_libraries(frog ${CURSES_LIBRARIES})

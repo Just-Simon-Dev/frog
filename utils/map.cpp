@@ -6,6 +6,9 @@
 
 #include <ncurses.h>
 #include "../config.h"
+#include "../frog/frog.h"
+
+struct Frog;
 
 enum icons
 {
@@ -60,8 +63,24 @@ void print_vertical_border_of_map()
     printw("+\n");
 }
 
+void clearPrevPositionOfFrog(Frog* frog, Map* map)
+{
+    map->values[frog_get_x(frog)][frog_get_y(frog)] = EMPTY;
+}
+
+void setFrog(Frog* frog, Map* map)
+{
+    map->values[frog_get_x(frog)][frog_get_y(frog)] = FROG;
+}
+
 void print_map_fixed(Map* map)
 {
+    if (LINES < MAP_HEIGHT || COLS < MAP_WIDTH) {
+        mvprintw(0, 0, "Terminal too small to display map!");
+        refresh();
+        return;
+    }
+    
     move((LINES - MAP_HEIGHT)/2, 0);
     print_vertical_border_of_map();
     for (int y = 0; y < MAP_HEIGHT; y++)
