@@ -14,7 +14,7 @@ Map* map_create();
 void map_destroy(const Map* map);
 void clearPrevPositionOfFrog(const Frog* frog, Map* map);
 void setFrog(const Frog* frog, Map* map);
-void set_lanes(lane_t* lanes, Map* map);
+void set_streets(street_t* street, Map* map);
 void print_destination_title(Map* map, destination_t* destination);
 void print_map_fixed(const Map* map);
 

@@ -21,6 +21,8 @@ add_executable(frog main.cpp
         utils/lane.h
         utils/destination.cpp
         utils/destination.h
+        cars/car.cpp
+        cars/car.h
 )
 
 # Link the executable with the ncurses library

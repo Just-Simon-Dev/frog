@@ -3,7 +3,7 @@
 //
 
 #include "lane.h"
-#include "../utils/map.h"
+#include "../cars/car.h"
 
 #include <cstdlib>
 
@@ -16,29 +16,50 @@ struct lane_t
     int bottomEdge;
 };
 
-lane_t* lanes_create(const int numberOfLanes)
+struct street_t
 {
-    lane_t* lanes = (lane_t*)malloc(sizeof(lane_t) * numberOfLanes);
-    int laneHeight = MAP_HEIGHT / (numberOfLanes + 2);
-    for (int i = 1; i < numberOfLanes + 1; i++)
+    
+    lane_t* lanes;
+};
+
+street_t* street_create()
+{
+    street_t* street = (street_t*)malloc(sizeof(street_t) * number_of_streets);
+    int streetHeight = MAP_HEIGHT / (number_of_streets + 2);
+    int laneHeight = streetHeight / number_of_lanes;
+    for (int i = 1; i < number_of_streets + 1; i++)
     {
-        lanes[i-1].topEdge = i * laneHeight;
-        lanes[i-1].bottomEdge = i * laneHeight + laneHeight;
+        int top_edge = i * streetHeight;
+        street[i-1].lanes = (lane_t*)malloc(sizeof(lane_t) * number_of_lanes);
+        
+        street[i-1].lanes[0].topEdge = top_edge;
+        street[i-1].lanes[0].bottomEdge = top_edge + laneHeight;
+        
+        for (int j = 1; j < number_of_lanes; j++)
+        {
+            street[i-1].lanes[j].topEdge = street[i-1].lanes[j - 1].bottomEdge;
+            street[i-1].lanes[j].bottomEdge = street[i-1].lanes[j].topEdge + laneHeight;
+        }
     }
-    return lanes;
+    return street;
 }
 
-void lanes_destroy(lane_t* lanes)
+void street_destroy(street_t* street)
 {
-    free(lanes);
+    for (int i = 0; i < number_of_streets; i++)
+    {
+        free(street[i].lanes);
+    }
+    free(street);
+    
 }
 
-int get_top_edge(const lane_t* lane, const int laneNumber)
+int get_top_edge(const street_t* street, const int streetNumber, const int laneNumber)
 {
-    return lane[laneNumber].topEdge;
+    return street[streetNumber].lanes[laneNumber].topEdge;
 }
 
-int get_bottom_edge(const lane_t* lane, const int laneNumber)
+int get_bottom_edge(const street_t* street, const int streetNumber, const int laneNumber)
 {
-    return lane[laneNumber].bottomEdge;
+    return street[streetNumber].lanes[laneNumber].bottomEdge;
 }

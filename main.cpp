@@ -14,8 +14,8 @@ int main()
     Frog* frog = frog_create();
     play_time_t* time = time_create();
     level_t* level = level_create();
-    lane_t* lanes = lanes_create(number_of_lane);
-    destination_t* destination = destination_create(lanes);
+    street_t* streets = street_create();
+    destination_t* destination = destination_create(streets);
     
     setFrog(frog, map);
     
@@ -49,7 +49,7 @@ int main()
 
         clearPrevPositionOfFrog(frog, map);
         frog_movement(frog, key);
-        set_lanes(lanes, map);
+        set_streets(streets, map);
         setFrog(frog, map);
         
         print_time(time);
@@ -61,7 +61,7 @@ int main()
     time_destroy(time);
     level_destroy(level);
     destination_destroy(destination);
-    lanes_destroy(lanes);
+    street_destroy(streets);
     
     endwin();
     

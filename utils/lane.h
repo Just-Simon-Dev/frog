@@ -6,11 +6,11 @@
 #define LINES_H
 
 struct lane_t;
+struct street_t;
 
-lane_t* lanes_create(const int numberOfLanes);
-void lanes_destroy(lane_t* lanes);
-int get_top_edge(const lane_t* lane, const int laneNumber);
-int get_bottom_edge(const lane_t* lane, const int laneNumber);
-
+street_t* street_create();
+void street_destroy(street_t* street);
+int get_top_edge(const street_t* street, const int streetNumber, const int laneNumber);
+int get_bottom_edge(const street_t* street, const int streetNumber, const int laneNumber);
 
 #endif //LINES_H

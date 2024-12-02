@@ -9,7 +9,7 @@
 
 struct destination_t;
 
-destination_t* destination_create(const lane_t* lanes);
+destination_t* destination_create(const street_t* street);
 void destination_destroy(const destination_t* destination);
 int get_destination_x(const destination_t* destination);
 int get_destination_y(const destination_t* destination);
