@@ -114,6 +114,24 @@ void print_destination_title(Map* map, destination_t* destination)
     map->values[MAP_WIDTH/2 + 1][get_destination_x(destination) / 2] = D; 
 }
 
+void print_with_colors(char icon, int color)
+{
+    attron(COLOR_PAIR(color));
+    printw("%c", icon);
+    attroff(COLOR_PAIR(color));
+}
+
+int get_proper_color(icons icon)
+{
+    if (icon == LANE) return 3;
+    if (icon == CAR) return 2;
+    if (icon == FROG) return 1;
+    if (icon == E) return 4;
+    if (icon == N) return 5;
+    if (icon == D) return 6;
+    return 0;
+}
+
 void print_map_fixed(const Map* map)
 {
     if (LINES < MAP_HEIGHT || COLS < MAP_WIDTH) {
@@ -129,8 +147,9 @@ void print_map_fixed(const Map* map)
         printw("|");
         for (int x = 0; x < MAP_WIDTH; x++)
         {
+            int color = get_proper_color(map->values[x][y]);
             char char_icon = icons_enum_to_char_icon(map->values[x][y]);
-            printw("%c", char_icon);
+            print_with_colors(char_icon, color);
         }
         printw("|\n");
     }

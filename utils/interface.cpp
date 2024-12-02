@@ -36,7 +36,9 @@ int time_get_elapsed(const play_time_t* play_time)
 
 void print_time(const play_time_t* time)
 {
+    attron(COLOR_PAIR(0));
     mvprintw(2, 0, "Play time: %ds", time_get_elapsed(time));
+    attroff(COLOR_PAIR(0));
 }
 
 void reset_time(play_time_t* play_time)
@@ -68,5 +70,7 @@ void level_increase(level_t* level)
 
 void print_level(const level_t* level)
 {
+    attron(COLOR_PAIR(0));
     mvprintw(1, 0, "Level: %d", level_get(level));
+    attroff(COLOR_PAIR(0));
 }
