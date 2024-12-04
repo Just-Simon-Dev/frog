@@ -4,6 +4,7 @@
 
 #include "map.h"
 
+#include <ctime>
 #include <ncurses.h>
 #include <string>
 
@@ -11,8 +12,11 @@
 #include "../config.h"
 #include "../frog/frog.h"
 #include "lane.h"
+#include "time_functions.h"
+#include "../cars/car.h"
 
 struct Frog;
+int car_time_cooldown_start = 0;
 
 enum icons
 {
@@ -85,6 +89,37 @@ void setFrog(const Frog* frog, Map* map)
     map->values[frog_get_x(frog)][frog_get_y(frog)] = FROG;
 }
 
+void updateCarPosition(car_t* cars, int carNumber)
+{
+    cars[carNumber].y += cars[carNumber].speed;
+    if (cars[carNumber].y >= MAP_WIDTH)
+    {
+        cars[carNumber].y = 0;
+    }
+}
+
+int determineDirectionOfCar(car_t* cars, int carNumber)
+{
+    if (cars[carNumber].direction == 1) return MAP_WIDTH - cars[carNumber].y - 1;
+    return cars[carNumber].y;
+}
+
+void setCars(street_t* street, int streetNumber, Map* map)
+{
+    for (int i = 0; i < number_of_lanes; i++)
+    {
+        int pos_middle_of_lane = (get_bottom_edge(street, streetNumber, i) + get_top_edge(street, streetNumber, i)) / 2;
+        
+        car_t* cars = get_cars(street, streetNumber, i);
+        for (int j = 0; j < number_of_cars; j++)
+        {
+            map->values[determineDirectionOfCar(cars, j)][pos_middle_of_lane] = EMPTY;
+            updateCarPosition(cars, j);
+            map->values[determineDirectionOfCar(cars, j)][pos_middle_of_lane] = CAR;
+        }
+    }
+}
+
 void draw_dashed_line(Map* map, int j, int i)
 {
     if (j % 2 == 0) return;
@@ -93,19 +128,26 @@ void draw_dashed_line(Map* map, int j, int i)
 
 void set_streets(street_t* street, Map* map)
 {
+    car_time_cooldown_start = reset_present_time(car_time_cooldown_start); 
+    
     for (int i = 0; i < number_of_streets; i++)
     {
+        if (car_time_cooldown_start == 0)
+        {
+            setCars(street, i, map);
+        }
+        
         for (int j = 0; j < MAP_WIDTH; j++)
         {
             map->values[j][get_top_edge(street, i, 0)] = LANE;
             map->values[j][get_bottom_edge(street, i, number_of_lanes - 1)] = LANE;
             for (int w = 0; w < number_of_lanes - 1; w++)
             {
-                int middle = (get_bottom_edge(street, i, w) + get_top_edge(street, i, w + 1)) / 2;
-                draw_dashed_line(map, j, middle);
+                draw_dashed_line(map, j, get_bottom_edge(street, i, w));
             }
         }
     }
+    car_time_cooldown_start = get_present_time(car_time_cooldown_start);
 }
 
 void print_destination_title(Map* map, destination_t* destination)

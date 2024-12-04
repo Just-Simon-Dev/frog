@@ -12,4 +12,7 @@ struct car_t
     int direction;
 };
 
+car_t *car_create(const int y, const int speed, const int direction);
+void car_destroy(car_t *car);
+
 #endif //CAR_H
