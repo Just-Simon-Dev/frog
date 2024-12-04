@@ -93,7 +93,7 @@ void draw_dashed_line(Map* map, int j, int i)
 
 void set_streets(street_t* street, Map* map)
 {
-    for (int i = 1; i < number_of_streets; i++)
+    for (int i = 0; i < number_of_streets; i++)
     {
         for (int j = 0; j < MAP_WIDTH; j++)
         {
@@ -101,7 +101,8 @@ void set_streets(street_t* street, Map* map)
             map->values[j][get_bottom_edge(street, i, number_of_lanes - 1)] = LANE;
             for (int w = 0; w < number_of_lanes - 1; w++)
             {
-                draw_dashed_line(map, j, get_top_edge(street, i, w));
+                int middle = (get_bottom_edge(street, i, w) + get_top_edge(street, i, w + 1)) / 2;
+                draw_dashed_line(map, j, middle);
             }
         }
     }
