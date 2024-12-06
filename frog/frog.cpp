@@ -4,14 +4,18 @@
 
 #include "frog.h"
 
+#include <ctime>
 #include <ncurses.h>
+#include <stdlib.h>
 
 #include "../config.h"
+#include "../utils/time_functions.h"
 
 struct Frog
 {
     int x;
     int y;
+    clock_t moveStart;
 };
 
 Frog* frog_create()
@@ -19,6 +23,7 @@ Frog* frog_create()
     Frog* frog = new Frog;
     frog->x = MAP_WIDTH / 2;
     frog->y = MAP_HEIGHT - 1;
+    frog->moveStart = clock();
     return frog;
 }
 
@@ -29,6 +34,7 @@ void frog_destroy(const Frog* frog)
 
 void frog_move(Frog* frog, const int dx, const int dy)
 {
+    if (!isTimeElapsed(&frog->moveStart, frog_move_cooldown_in_miliseconds)) return;
     if (frog->x + dx < 0 || frog->x + dx >= MAP_WIDTH) return;
     if (frog->y + dy < 0 || frog->y + dy >= MAP_HEIGHT) return;
     frog->x += dx;

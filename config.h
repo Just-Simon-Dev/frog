@@ -13,6 +13,6 @@ const int number_of_lanes = 2;
 const int number_of_cars = 1;
 const int min_cars_time_cooldown_in_miliseconds = 50;
 const int max_cars_time_cooldown_in_miliseconds = 400;
-
+const int frog_move_cooldown_in_miliseconds = 100;
 
 #endif //CONFIG_H
