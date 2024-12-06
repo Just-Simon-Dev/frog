@@ -11,6 +11,7 @@ const int MAP_HEIGHT = 20;
 const int number_of_streets = 3;
 const int number_of_lanes = 2;
 const int number_of_cars = 1;
-const int cars_time_cooldown_in_seconds = 1;
+const int cars_time_cooldown_in_miliseconds = 100;
+
 
 #endif //CONFIG_H

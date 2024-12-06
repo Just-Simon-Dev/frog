@@ -18,7 +18,6 @@
 #include "../services/notificationService.h"
 
 struct Frog;
-int car_time_cooldown_start = 0;
 
 enum icons
 {
@@ -93,7 +92,7 @@ void setFrog(const Frog* frog, Map* map)
 
 void updateCarPosition(car_t* cars, int carNumber)
 {
-    cars[carNumber].y += cars[carNumber].speed;
+    cars[carNumber].y += 1;
     if (cars[carNumber].y >= MAP_WIDTH)
     {
         srand(time(0));
@@ -170,13 +169,12 @@ void draw_dashed_line(Map* map, int j, int i)
     map->values[j][i] = LANE;
 }
 
-void set_streets(street_t* street, Map* map)
+void set_streets(street_t* street, Map* map, clock_t* car_time_cooldown_start)
 {
-    car_time_cooldown_start = reset_present_time(car_time_cooldown_start); 
-    
+    bool shouldRenderCars = isTimeElapsed(car_time_cooldown_start, cars_time_cooldown_in_miliseconds);
     for (int i = 0; i < number_of_streets; i++)
     {
-        if (car_time_cooldown_start == 0)
+        if (shouldRenderCars)
         {
             setCars(street, i, map);
         }
@@ -191,7 +189,6 @@ void set_streets(street_t* street, Map* map)
             }
         }
     }
-    car_time_cooldown_start = get_present_time(car_time_cooldown_start);
 }
 
 void print_destination_title(Map* map, destination_t* destination)
