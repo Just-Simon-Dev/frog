@@ -51,6 +51,7 @@ int main()
         frog_movement(frog, key);
         set_streets(streets, map);
         setFrog(frog, map);
+        detectCollision(frog, streets, time);
         
         print_time(time);
         print_level(level);

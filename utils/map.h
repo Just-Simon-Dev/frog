@@ -8,6 +8,7 @@
 #include "../frog/frog.h"
 #include "lane.h"
 #include "destination.h"
+#include "interface.h"
 
 struct Map;
 Map* map_create();
@@ -17,5 +18,6 @@ void setFrog(const Frog* frog, Map* map);
 void set_streets(street_t* street, Map* map);
 void print_destination_title(Map* map, destination_t* destination);
 void print_map_fixed(const Map* map);
+void detectCollision(Frog* frog, street_t* streets, play_time_t* play_time);
 
 #endif //MAP_H

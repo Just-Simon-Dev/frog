@@ -9,11 +9,13 @@
 #include <string>
 
 #include "destination.h"
+#include "interface.h"
 #include "../config.h"
 #include "../frog/frog.h"
 #include "lane.h"
 #include "time_functions.h"
 #include "../cars/car.h"
+#include "../services/notificationService.h"
 
 struct Frog;
 int car_time_cooldown_start = 0;
@@ -94,6 +96,13 @@ void updateCarPosition(car_t* cars, int carNumber)
     cars[carNumber].y += cars[carNumber].speed;
     if (cars[carNumber].y >= MAP_WIDTH)
     {
+        srand(time(0));
+
+        int random = rand() % 2;
+        printw("random: %d choice", random);
+        if (random == 0) cars[carNumber].direction = 0;
+        else cars[carNumber].direction = 1;
+        
         cars[carNumber].y = 0;
     }
 }
@@ -103,6 +112,41 @@ int determineDirectionOfCar(car_t* cars, int carNumber)
     if (cars[carNumber].direction == 1) return MAP_WIDTH - cars[carNumber].y - 1;
     return cars[carNumber].y;
 }
+
+void detectCollision(Frog* frog, street_t* streets, play_time_t* play_time)
+{
+    int frog_x = frog_get_x(frog);
+    int frog_y = frog_get_y(frog);
+    
+    for (int i = 0; i < number_of_streets; i++)
+    {
+        for (int lane = 0; lane < number_of_lanes; lane++)
+        {
+            car_t* cars = get_cars(streets, i, lane);
+            for (int carIndex = 0; carIndex < number_of_cars; carIndex++)
+            {
+                int car_x = determineDirectionOfCar(cars, carIndex);
+                int car_y = (get_bottom_edge(streets, i, lane) + get_top_edge(streets, i, lane)) / 2;
+                
+                if (frog_x == car_x && frog_y == car_y)
+                {
+                    bool choice = showPopup("You lost! Do you want to play again?");
+                    if (choice)
+                    {
+                        frog_set_position(frog, MAP_WIDTH / 2, MAP_HEIGHT - 1);
+                        reset_time(play_time);
+                    }
+                    else
+                    {
+                        endwin();
+                        exit(0);
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 void setCars(street_t* street, int streetNumber, Map* map)
 {
