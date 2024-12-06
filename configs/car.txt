@@ -1,0 +1,5 @@
+car_icon
+[o==o]
+
+car_size
+1 6

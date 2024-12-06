@@ -1,0 +1,5 @@
+frog_icon
+(o_o)
+
+frog_size
+1 4

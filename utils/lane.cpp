@@ -36,13 +36,13 @@ street_t* street_create()
         street[i-1].lanes[0].topEdge = top_edge;
         street[i-1].lanes[0].bottomEdge = top_edge + laneHeight;
         
-        street[i-1].lanes[0].cars = car_create(0, 1, 1);
+        street[i-1].lanes[0].cars = car_create(0, 1);
         
         for (int j = 1; j < number_of_lanes; j++)
         {
             street[i-1].lanes[j].topEdge = street[i-1].lanes[j - 1].bottomEdge;
             street[i-1].lanes[j].bottomEdge = street[i-1].lanes[j].topEdge + laneHeight;
-            street[i-1].lanes[j].cars = car_create(0, 3, j % 2 + 1);
+            street[i-1].lanes[j].cars = car_create(0, j % 2 + 1);
         }
     }
     return street;

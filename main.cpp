@@ -10,13 +10,14 @@
 
 int main()
 {
+    srand(time(0));
+    
     Map* map = map_create();
     Frog* frog = frog_create();
     play_time_t* time = time_create();
     level_t* level = level_create();
     street_t* streets = street_create();
     destination_t* destination = destination_create(streets);
-    clock_t car_time_cooldown_start = clock();
     
     setFrog(frog, map);
     
@@ -50,7 +51,7 @@ int main()
 
         clearPrevPositionOfFrog(frog, map);
         frog_movement(frog, key);
-        set_streets(streets, map, &car_time_cooldown_start);
+        set_streets(streets, map);
         setFrog(frog, map);
         detectCollision(frog, streets, time);
         

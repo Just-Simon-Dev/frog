@@ -95,8 +95,6 @@ void updateCarPosition(car_t* cars, int carNumber)
     cars[carNumber].y += 1;
     if (cars[carNumber].y >= MAP_WIDTH)
     {
-        srand(time(0));
-
         int random = rand() % 2;
         printw("random: %d choice", random);
         if (random == 0) cars[carNumber].direction = 0;
@@ -156,9 +154,12 @@ void setCars(street_t* street, int streetNumber, Map* map)
         car_t* cars = get_cars(street, streetNumber, i);
         for (int j = 0; j < number_of_cars; j++)
         {
-            map->values[determineDirectionOfCar(cars, j)][pos_middle_of_lane] = EMPTY;
-            updateCarPosition(cars, j);
-            map->values[determineDirectionOfCar(cars, j)][pos_middle_of_lane] = CAR;
+            if (isTimeElapsed(&cars[j].timeCooldownStart, cars[j].timeCooldown))
+            {
+                map->values[determineDirectionOfCar(cars, j)][pos_middle_of_lane] = EMPTY;
+                updateCarPosition(cars, j);
+                map->values[determineDirectionOfCar(cars, j)][pos_middle_of_lane] = CAR;
+            }
         }
     }
 }
@@ -169,15 +170,12 @@ void draw_dashed_line(Map* map, int j, int i)
     map->values[j][i] = LANE;
 }
 
-void set_streets(street_t* street, Map* map, clock_t* car_time_cooldown_start)
+void set_streets(street_t* street, Map* map)
 {
-    bool shouldRenderCars = isTimeElapsed(car_time_cooldown_start, cars_time_cooldown_in_miliseconds);
     for (int i = 0; i < number_of_streets; i++)
     {
-        if (shouldRenderCars)
-        {
-            setCars(street, i, map);
-        }
+        
+        setCars(street, i, map);
         
         for (int j = 0; j < MAP_WIDTH; j++)
         {
