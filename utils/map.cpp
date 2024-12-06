@@ -144,6 +144,24 @@ void detectCollision(Frog* frog, street_t* streets, play_time_t* play_time)
     }
 }
 
+void checkIfFrogReachedDestination(Frog* frog, destination_t* destination, play_time_t* play_time, level_t* level)
+{
+    if (frog_get_y(frog) == get_destination_x(destination))
+    {
+        bool choice = showPopup("You won! Do you want to play again?");
+        if (choice)
+        {
+            frog_set_position(frog, MAP_WIDTH / 2, MAP_HEIGHT - 1);
+            reset_time(play_time);
+            level_increase(level);
+        }
+        else
+        {
+            endwin();
+            exit(0);
+        }
+    }
+}
 
 void setCars(street_t* street, int streetNumber, Map* map)
 {

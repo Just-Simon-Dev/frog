@@ -45,6 +45,7 @@ int main()
     {
         print_map_fixed(map);
         print_destination_title(map, destination);
+        checkIfFrogReachedDestination(frog, destination, time, level);
         
         const int key = getch();
         if (key == 'q') break;
