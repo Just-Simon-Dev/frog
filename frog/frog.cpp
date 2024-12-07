@@ -19,14 +19,14 @@ struct Frog
     int y;
     int width;
     int height;
-    char* icon;
+    std::string icon;
     clock_t moveStart;
 };
 
 Frog* frog_create()
 {
     Config config;
-    if (!loadConfig("../configs/frog.txt", &config)) {
+    if (!parseConfig("../configs/frog.txt", config)) {
         printw("Failed to load configuration.\n");
     }
     
@@ -35,22 +35,15 @@ Frog* frog_create()
     frog->y = MAP_HEIGHT - 1;
     frog->moveStart = clock();
 
-    printw("config.icon: %s\n", config.icon);
-    printw("config.size_height: %d\n", config.size_height);
-    printw("config.size_width: %d\n", config.size_width);
-
     frog->height = config.size_height;
     frog->width = config.size_width;
-    frog->icon = strdup(config.icon);
-
-    
+    frog->icon = config.icon.c_str();
     
     return frog;
 }
 
 void frog_destroy(const Frog* frog)
 {
-    free(frog->icon);
     delete frog;
 }
 
@@ -86,4 +79,19 @@ int frog_get_x(const Frog* frog)
 int frog_get_y(const Frog* frog)
 {
     return frog->y;
+}
+
+int frog_get_width(const Frog* frog)
+{
+    return frog->width;
+}
+
+int frog_get_height(const Frog* frog)
+{
+    return frog->height;
+}
+
+std::string frog_get_icon(const Frog* frog)
+{
+    return frog->icon;
 }

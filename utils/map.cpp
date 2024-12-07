@@ -47,6 +47,18 @@ char icons_enum_to_char_icon(const icons icon)
     return ' ';
 }
 
+void print_icon(std::string elemenets_icon, int width, int height)
+{
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            printw("%s", elemenets_icon.c_str());
+        }
+        
+    }
+}
+
 struct Map
 {
     icons values[MAP_WIDTH][MAP_HEIGHT];
@@ -87,7 +99,16 @@ void clearPrevPositionOfFrog(const Frog* frog, Map* map)
 
 void setFrog(const Frog* frog, Map* map)
 {
-    map->values[frog_get_x(frog)][frog_get_y(frog)] = FROG;
+    int height = frog_get_height(frog);
+    int width = frog_get_width(frog);
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            map->values[frog_get_x(frog) + j][frog_get_y(frog) + i] = FROG;
+        }
+    }
 }
 
 void updateCarPosition(car_t* cars, int carNumber)
@@ -248,7 +269,7 @@ int get_proper_color(icons icon)
     return 0;
 }
 
-void print_map_fixed(const Map* map)
+void print_map_fixed(const Map* map, const Frog* frog)
 {
     if (LINES < MAP_HEIGHT || COLS < MAP_WIDTH) {
         mvprintw(0, 0, "Terminal too small to display map!");
@@ -263,9 +284,20 @@ void print_map_fixed(const Map* map)
         printw("|");
         for (int x = 0; x < MAP_WIDTH; x++)
         {
-            int color = get_proper_color(map->values[x][y]);
-            char char_icon = icons_enum_to_char_icon(map->values[x][y]);
-            print_with_colors(char_icon, color);
+            if (map->values[x][y] == FROG)
+            {
+                std::string icon = frog_get_icon(frog);
+                int width = frog_get_width(frog);
+                int height = frog_get_height(frog);
+
+                print_icon(icon, width, height);
+            } else
+            {
+                int color = get_proper_color(map->values[x][y]);
+                char char_icon = icons_enum_to_char_icon(map->values[x][y]);
+                print_with_colors(char_icon, color);
+            }
+            
         }
         printw("|\n");
     }

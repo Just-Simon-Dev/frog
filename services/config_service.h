@@ -4,17 +4,14 @@
 
 #ifndef CONFIG_SERVICE_H
 #define CONFIG_SERVICE_H
+#include <string>
 
 struct Config {
-    char *icon;
+    std::string icon;
     int size_height;
     int size_width;
 };
 
-void initConfig(Config *config);
-
-bool loadConfig(const char* filename, Config* config);
-
-const char *getConfigValue(const char *key, Config *config);
+bool parseConfig(const std::string& filename, Config& config);
 
 #endif //CONFIG_SERVICE_H
