@@ -120,7 +120,7 @@ void detectCollision(Frog* frog, street_t* streets, play_time_t* play_time)
         for (int lane = 0; lane < number_of_lanes; lane++)
         {
             car_t* cars = get_cars(streets, i, lane);
-            for (int carIndex = 0; carIndex < number_of_cars; carIndex++)
+            for (int carIndex = 0; carIndex < get_number_of_cars(streets, i, lane); carIndex++)
             {
                 int car_x = determineDirectionOfCar(cars, carIndex);
                 int car_y = (get_bottom_edge(streets, i, lane) + get_top_edge(streets, i, lane)) / 2;
@@ -151,7 +151,7 @@ void increase_speed_of_cars(street_t* streets, level_t* level)
         for (int lane = 0; lane < number_of_lanes; lane++)
         {
             car_t* cars = get_cars(streets, i, lane);
-            for (int carIndex = 0; carIndex < number_of_cars; carIndex++)
+            for (int carIndex = 0; carIndex < get_number_of_cars(streets, i, lane); carIndex++)
             {
                 if ( cars[carIndex].timeCooldown - level_get(level) * level_multiplier >= min_cars_time_cooldown_in_miliseconds)
                     cars[carIndex].timeCooldown -= level_get(level) * level_multiplier;
@@ -187,7 +187,7 @@ void setCars(street_t* street, int streetNumber, Map* map)
         int pos_middle_of_lane = (get_bottom_edge(street, streetNumber, i) + get_top_edge(street, streetNumber, i)) / 2;
         
         car_t* cars = get_cars(street, streetNumber, i);
-        for (int j = 0; j < number_of_cars; j++)
+        for (int j = 0; j < get_number_of_cars(street, streetNumber, i); j++)
         {
             if (isTimeElapsed(&cars[j].timeCooldownStart, cars[j].timeCooldown))
             {

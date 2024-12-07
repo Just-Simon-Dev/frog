@@ -8,7 +8,7 @@
 
 #include "../config.h"
 
-car_t *car_create(const int y, const int direction)
+car_t *car_create(const int y, const int direction, int number_of_cars) 
 {
     
     

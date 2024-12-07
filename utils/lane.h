@@ -15,5 +15,7 @@ void street_destroy(street_t* street);
 int get_top_edge(const street_t* street, const int streetNumber, const int laneNumber);
 int get_bottom_edge(const street_t* street, const int streetNumber, const int laneNumber);
 car_t* get_cars(const street_t* street, const int streetNumber, const int laneNumber);
+int get_number_of_cars(const street_t* street, const int streetNumber, const int laneNumber);
+void add_random_cars(const street_t *streets);
 
 #endif //LINES_H

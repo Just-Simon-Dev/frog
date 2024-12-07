@@ -58,6 +58,7 @@ int main()
         
         print_time(time);
         print_level(level);
+        add_random_cars(streets);
     }
     
     map_destroy(map);
