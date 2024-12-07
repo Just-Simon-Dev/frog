@@ -96,7 +96,6 @@ void updateCarPosition(car_t* cars, int carNumber)
     if (cars[carNumber].y >= MAP_WIDTH)
     {
         int random = rand() % 2;
-        printw("random: %d choice", random);
         if (random == 0) cars[carNumber].direction = 0;
         else cars[carNumber].direction = 1;
         

@@ -27,6 +27,8 @@ add_executable(frog main.cpp
         utils/time_functions.h
         services/notificationService.cpp
         services/notificationService.h
+        services/config_service.cpp
+        services/config_service.h
 )
 
 # Link the executable with the ncurses library

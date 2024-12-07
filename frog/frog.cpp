@@ -4,31 +4,53 @@
 
 #include "frog.h"
 
+#include <cstring>
 #include <ctime>
 #include <ncurses.h>
 #include <stdlib.h>
 
 #include "../config.h"
+#include "../services/config_service.h"
 #include "../utils/time_functions.h"
 
 struct Frog
 {
     int x;
     int y;
+    int width;
+    int height;
+    char* icon;
     clock_t moveStart;
 };
 
 Frog* frog_create()
 {
+    Config config;
+    if (!loadConfig("../configs/frog.txt", &config)) {
+        printw("Failed to load configuration.\n");
+    }
+    
     Frog* frog = new Frog;
     frog->x = MAP_WIDTH / 2;
     frog->y = MAP_HEIGHT - 1;
     frog->moveStart = clock();
+
+    printw("config.icon: %s\n", config.icon);
+    printw("config.size_height: %d\n", config.size_height);
+    printw("config.size_width: %d\n", config.size_width);
+
+    frog->height = config.size_height;
+    frog->width = config.size_width;
+    frog->icon = strdup(config.icon);
+
+    
+    
     return frog;
 }
 
 void frog_destroy(const Frog* frog)
 {
+    free(frog->icon);
     delete frog;
 }
 
