@@ -21,6 +21,6 @@ void set_streets(street_t* street, Map* map);
 void print_destination_title(Map* map, destination_t* destination);
 void print_map_fixed(const Map* map);
 void detectCollision(Frog* frog, street_t* streets, play_time_t* play_time);
-void checkIfFrogReachedDestination(Frog* frog, destination_t* destination, play_time_t* play_time, level_t* level);
+void checkIfFrogReachedDestination(Frog* frog, destination_t* destination, play_time_t* play_time, level_t* level, street_t* streets);
 
 #endif //MAP_H

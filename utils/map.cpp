@@ -144,7 +144,23 @@ void detectCollision(Frog* frog, street_t* streets, play_time_t* play_time)
     }
 }
 
-void checkIfFrogReachedDestination(Frog* frog, destination_t* destination, play_time_t* play_time, level_t* level)
+void increase_speed_of_cars(street_t* streets, level_t* level)
+{
+    for (int i = 0; i < number_of_streets; i++)
+    {
+        for (int lane = 0; lane < number_of_lanes; lane++)
+        {
+            car_t* cars = get_cars(streets, i, lane);
+            for (int carIndex = 0; carIndex < number_of_cars; carIndex++)
+            {
+                if ( cars[carIndex].timeCooldown - level_get(level) * level_multiplier >= min_cars_time_cooldown_in_miliseconds)
+                    cars[carIndex].timeCooldown -= level_get(level) * level_multiplier;
+            }
+        }
+    }
+}
+
+void checkIfFrogReachedDestination(Frog* frog, destination_t* destination, play_time_t* play_time, level_t* level, street_t* streets)
 {
     if (frog_get_y(frog) == get_destination_x(destination))
     {
@@ -154,6 +170,7 @@ void checkIfFrogReachedDestination(Frog* frog, destination_t* destination, play_
             frog_set_position(frog, MAP_WIDTH / 2, MAP_HEIGHT - 1);
             reset_time(play_time);
             level_increase(level);
+            increase_speed_of_cars(streets, level);
         }
         else
         {
