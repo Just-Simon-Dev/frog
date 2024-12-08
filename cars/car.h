@@ -5,6 +5,8 @@
 #ifndef CAR_H
 #define CAR_H
 #include <ctime>
+#include <string>
+
 #include "../config.h"
 
 struct car_t
@@ -13,6 +15,9 @@ struct car_t
     int timeCooldown;
     clock_t timeCooldownStart;
     int direction;
+    std::string icon;
+    int width;
+    int height;
 };
 
 car_t *car_create(const int y, const int direction, int number_of_cars = number_of_cars_per_lane);

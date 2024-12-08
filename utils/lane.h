@@ -17,5 +17,7 @@ int get_bottom_edge(const street_t* street, const int streetNumber, const int la
 car_t* get_cars(const street_t* street, const int streetNumber, const int laneNumber);
 int get_number_of_cars(const street_t* street, const int streetNumber, const int laneNumber);
 void add_random_cars(const street_t *streets);
+int determineDirectionOfCar(car_t* cars, int carNumber);
+car_t* get_car_by_coordinates(const street_t* street, const int x, const int y);
 
 #endif //LINES_H

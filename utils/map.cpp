@@ -47,13 +47,21 @@ char icons_enum_to_char_icon(const icons icon)
     return ' ';
 }
 
-void print_icon(std::string elemenets_icon, int width, int height)
+void print_with_colors(char icon, int color)
+{
+    attron(COLOR_PAIR(color));
+    printw("%c", icon);
+    attroff(COLOR_PAIR(color));
+}
+
+void print_icon(std::string elemenets_icon, int width, int height, int color)
 {
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            printw("%s", elemenets_icon.c_str());
+            
+            print_with_colors(elemenets_icon[j], color);
         }
         
     }
@@ -99,16 +107,7 @@ void clearPrevPositionOfFrog(const Frog* frog, Map* map)
 
 void setFrog(const Frog* frog, Map* map)
 {
-    int height = frog_get_height(frog);
-    int width = frog_get_width(frog);
-
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-            map->values[frog_get_x(frog) + j][frog_get_y(frog) + i] = FROG;
-        }
-    }
+    map->values[frog_get_x(frog)][frog_get_y(frog)] = FROG;
 }
 
 void updateCarPosition(car_t* cars, int carNumber)
@@ -124,16 +123,14 @@ void updateCarPosition(car_t* cars, int carNumber)
     }
 }
 
-int determineDirectionOfCar(car_t* cars, int carNumber)
-{
-    if (cars[carNumber].direction == 1) return MAP_WIDTH - cars[carNumber].y - 1;
-    return cars[carNumber].y;
-}
-
 void detectCollision(Frog* frog, street_t* streets, play_time_t* play_time)
 {
     int frog_x = frog_get_x(frog);
     int frog_y = frog_get_y(frog);
+    int frog_width = frog_get_width(frog);
+    int frog_height = frog_get_height(frog);
+    int frog_x2 = frog_x + frog_width - 1;
+    int frog_y2 = frog_y + frog_height - 1;
     
     for (int i = 0; i < number_of_streets; i++)
     {
@@ -144,8 +141,12 @@ void detectCollision(Frog* frog, street_t* streets, play_time_t* play_time)
             {
                 int car_x = determineDirectionOfCar(cars, carIndex);
                 int car_y = (get_bottom_edge(streets, i, lane) + get_top_edge(streets, i, lane)) / 2;
+                int car_width = cars[carIndex].width;
+                int car_height = cars[carIndex].height;
+                int car_x2 = car_x + car_width - 1;
+                int car_y2 = car_y + car_height - 1;
                 
-                if (frog_x == car_x && frog_y == car_y)
+                if (frog_x <= car_x2 && frog_x2 >= car_x && frog_y <= car_y2 && frog_y2 >= car_y)
                 {
                     bool choice = showPopup("You lost! Do you want to play again?");
                     if (choice)
@@ -251,13 +252,6 @@ void print_destination_title(Map* map, destination_t* destination)
     map->values[MAP_WIDTH/2 + 1][get_destination_x(destination) / 2] = D; 
 }
 
-void print_with_colors(char icon, int color)
-{
-    attron(COLOR_PAIR(color));
-    printw("%c", icon);
-    attroff(COLOR_PAIR(color));
-}
-
 int get_proper_color(icons icon)
 {
     if (icon == LANE) return 3;
@@ -269,7 +263,7 @@ int get_proper_color(icons icon)
     return 0;
 }
 
-void print_map_fixed(const Map* map, const Frog* frog)
+void print_map_fixed(const Map* map, const Frog* frog, street_t* streets)
 {
     if (LINES < MAP_HEIGHT || COLS < MAP_WIDTH) {
         mvprintw(0, 0, "Terminal too small to display map!");
@@ -286,12 +280,28 @@ void print_map_fixed(const Map* map, const Frog* frog)
         {
             if (map->values[x][y] == FROG)
             {
+                int color = get_proper_color(map->values[x][y]);
                 std::string icon = frog_get_icon(frog);
                 int width = frog_get_width(frog);
                 int height = frog_get_height(frog);
 
-                print_icon(icon, width, height);
-            } else
+                print_icon(icon, width, height, color);
+                x += width - 1;
+                y += height - 1;
+            }
+            else if (map->values[x][y] == CAR)
+            {
+                int color = get_proper_color(map->values[x][y]);
+                car_t* car = get_car_by_coordinates(streets, x, y);
+                std::string icon = car->icon;
+                int width = car->width;
+                int height = car->height;
+
+                print_icon(icon, width, height, color);
+                x += width - 1;
+                y += height - 1;
+            }
+            else
             {
                 int color = get_proper_color(map->values[x][y]);
                 char char_icon = icons_enum_to_char_icon(map->values[x][y]);

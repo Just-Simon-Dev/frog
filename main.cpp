@@ -43,7 +43,7 @@ int main()
     
     while (true)
     {
-        print_map_fixed(map);
+        print_map_fixed(map, frog, streets);
         print_destination_title(map, destination);
         checkIfFrogReachedDestination(frog, destination, time, level, streets);
         

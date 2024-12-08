@@ -1,5 +1,5 @@
-car_icon
+icon
 [o==o]
 
-car_size
+size
 1 6

@@ -87,6 +87,31 @@ car_t* get_cars(const street_t* street, const int streetNumber, const int laneNu
     return street[streetNumber].lanes[laneNumber].cars;
 }
 
+int determineDirectionOfCar(car_t* cars, int carNumber)
+{
+    if (cars[carNumber].direction == 1) return MAP_WIDTH - cars[carNumber].y - 1;
+    return cars[carNumber].y;
+}
+
+car_t* get_car_by_coordinates(const street_t* street, const int x, const int y)
+{
+    for (int i = 0; i < number_of_streets; i++)
+    {
+        for (int j = 0; j < number_of_lanes; j++)
+        {
+            int pos_middle_of_lane = (get_bottom_edge(street, i, j) + get_top_edge(street, i, j)) / 2;
+            if (pos_middle_of_lane != y) continue;
+            
+            car_t* car = get_cars(street, i, j);
+            for (int k = 0; k < get_number_of_cars(street, i, j); k++)
+            {
+                if (determineDirectionOfCar(car, k) == x) return &car[k];
+            }
+        }
+    }
+    return nullptr;
+}
+
 int get_number_of_cars(const street_t* street, const int streetNumber, const int laneNumber)
 {
     return street[streetNumber].lanes[laneNumber].number_of_cars;
@@ -106,14 +131,8 @@ void add_random_cars(const street_t *streets) {
     }
     
     lane_t *target_lane = &streets[random_street_index].lanes[random_lane_index];
-    
-    car_t *expanded_cars = (car_t*) malloc((target_lane->number_of_cars + 1) * sizeof(car_t));
-    if (expanded_cars == NULL) {
-        fprintf(stderr, "Memory allocation failed.\n");
-        return;
-    }
 
-    expanded_cars = car_create(0, new_car_array->direction, target_lane->number_of_cars + 1);
+    car_t *expanded_cars = car_create(0, new_car_array->direction, target_lane->number_of_cars + 1);
 
     for (int i = 0; i < target_lane->number_of_cars; i++) {
         expanded_cars[i] = target_lane->cars[i];

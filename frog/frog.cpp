@@ -37,7 +37,7 @@ Frog* frog_create()
 
     frog->height = config.size_height;
     frog->width = config.size_width;
-    frog->icon = config.icon.c_str();
+    frog->icon = config.icon;
     
     return frog;
 }
