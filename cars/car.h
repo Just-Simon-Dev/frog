@@ -14,7 +14,7 @@ struct car_t
     int y;
     int timeCooldown;
     clock_t timeCooldownStart;
-    int direction;
+    int direction; // 0 - right, 1 - left
     std::string icon;
     int width;
     int height;

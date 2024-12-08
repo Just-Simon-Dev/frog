@@ -7,6 +7,7 @@
 #include "utils/interface.h"
 #include "utils/lane.h"
 #include "utils/destination.h"
+#include "utils/tips.h"
 
 int main()
 {
@@ -40,6 +41,8 @@ int main()
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
     curs_set(0);
+
+    print_tips();
     
     while (true)
     {

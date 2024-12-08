@@ -50,8 +50,8 @@ void frog_destroy(const Frog* frog)
 void frog_move(Frog* frog, const int dx, const int dy)
 {
     if (!isTimeElapsed(&frog->moveStart, frog_move_cooldown_in_miliseconds)) return;
-    if (frog->x + dx < 0 || frog->x + dx >= MAP_WIDTH) return;
-    if (frog->y + dy < 0 || frog->y + dy >= MAP_HEIGHT) return;
+    if (frog->x + dx < 0 || frog->x + dx >= MAP_WIDTH || frog->x + dx + frog->width > MAP_WIDTH) return;
+    if (frog->y + dy < 0 || frog->y + dy >= MAP_HEIGHT || frog->y + dy + frog->height > MAP_HEIGHT) return;
     frog->x += dx;
     frog->y += dy;
 }

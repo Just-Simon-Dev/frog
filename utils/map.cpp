@@ -110,16 +110,26 @@ void setFrog(const Frog* frog, Map* map)
     map->values[frog_get_x(frog)][frog_get_y(frog)] = FROG;
 }
 
+void addRandomDirection(car_t* cars, int carNumber)
+{
+    int random = rand() % 2;
+    cars[carNumber].direction = random;
+}
+
 void updateCarPosition(car_t* cars, int carNumber)
 {
     cars[carNumber].y += 1;
-    if (cars[carNumber].y >= MAP_WIDTH)
+    if (determineDirectionOfCar(cars, carNumber) < 0)
     {
-        int random = rand() % 2;
-        if (random == 0) cars[carNumber].direction = 0;
-        else cars[carNumber].direction = 1;
+        addRandomDirection(cars, carNumber);
         
         cars[carNumber].y = 0;
+    }
+    if (determineDirectionOfCar(cars, carNumber) + cars[carNumber].width >= MAP_WIDTH)
+    {
+        addRandomDirection(cars, carNumber);
+        
+        cars[carNumber].y = cars[carNumber].width; 
     }
 }
 
